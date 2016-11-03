@@ -2,7 +2,9 @@
 //      for Aruduino and ESP8226/ESP-WROOM-02
 //
 //      by koichi kurahashi 2016-06-24
-//         http://jiwashin.blogspot.jp/ 
+//         http://jiwashin.blogspot.jp/
+//         set other i2c address by using setup function
+//
 
 #include "STTS751.h"
 
@@ -11,6 +13,12 @@
 
 STTS751::STTS751() {
   
+}
+
+void STTS751::setup(int inI2CAddress) {
+    
+    i2caddress = inI2CAddress;
+    setup();
 }
 
 
@@ -50,12 +58,12 @@ float STTS751::readTemperature() {
 int STTS751::readRegister(int inRegister) {
   setRegisterAddress(inRegister);
 
-  Wire.requestFrom(kI2CAddress, 1);
+  Wire.requestFrom(i2caddress, 1);
   return Wire.read();
 }
 
 int STTS751::writeCommandToRegisterAddress(int inCommand, int inRegister) {
-  Wire.beginTransmission(kI2CAddress);
+  Wire.beginTransmission(i2caddress);
   Wire.write(inRegister);
   Wire.write(inCommand);
   Wire.endTransmission();
@@ -77,7 +85,7 @@ void STTS751::waitForReady() {
 }
 
 int STTS751::setRegisterAddress(int inRegister) {
-  Wire.beginTransmission(kI2CAddress);
+  Wire.beginTransmission(i2caddress);
   Wire.write(inRegister);
   Wire.endTransmission();
 }

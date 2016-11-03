@@ -22,7 +22,7 @@
 
 class STTS751 {
   public:
-    const int kI2CAddress =  0x39;
+    const int kI2CAddress =  0x39; //   0b1110010
 
 
     const int kRegisterTemperatureHigh  = 0x00;
@@ -56,6 +56,7 @@ class STTS751 {
 
     STTS751();
 
+    void setup(int inI2CAddress);
     void setup();
 
     float readTemperature();
@@ -63,6 +64,8 @@ class STTS751 {
     int   writeCommandToRegisterAddress(int inCommand, int inRegister);
 
   private:
+    int i2caddress = kI2CAddress;
+
     void  waitForReady();
     int   setRegisterAddress(int inRegister);
 };
